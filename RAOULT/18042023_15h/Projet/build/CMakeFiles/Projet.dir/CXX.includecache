@@ -1,0 +1,38 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/pi/Documents/Projet/k8055.cpp
+string.h
+-
+stdio.h
+-
+usb.h
+-
+assert.h
+-
+math.h
+-
+k8055.h
+/home/pi/Documents/Projet/k8055.h
+
+/home/pi/Documents/Projet/k8055.h
+
+/home/pi/Documents/Projet/main.cpp
+string.h
+-
+stdio.h
+-
+usb.h
+-
+assert.h
+-
+sys/time.h
+-
+k8055.h
+/home/pi/Documents/Projet/k8055.h
+
