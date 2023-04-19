@@ -1,0 +1,7 @@
+Ultrasons :
+Ce code utilise la bibliothèque WiringPi pour accéder aux broches du Raspberry Pi. Il configure la broche TRIGGER_PIN en sortie et la broche ECHO_PIN en entrée. Il envoie ensuite une impulsion de 10 us sur la broche TRIGGER_PIN, mesure la durée de l'impulsion sur la broche ECHO_PIN, convertit cette durée en distance en cm et affiche la distance mesurée. Le code attend ensuite une seconde avant de recommencer la mesure.
+
+Tudbidité :
+Ce code utilise la bibliothèque WiringPi pour accéder à la broche analogique du Raspberry Pi. Il lit la valeur analogique sur la broche ANALOG_PIN, convertit cette valeur en pourcentage de turbidité et affiche la valeur de turbidité mesurée. Le code attend ensuite une seconde avant de recommencer la mesure.
+
+Notez que le capteur de turbidité Grove 101020752 est un capteur analogique, donc la broche utilisée doit être une broche d'entrée analogique. Dans cet exemple, nous avons utilisé la broche 0 comme broche analogique, mais vous pouvez utiliser une autre broche analogique en fonction de votre configuration.
