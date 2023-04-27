@@ -1,0 +1,13 @@
+Documentation_raspberry : 
+    Commande compilation - ( gcc -o Turbi code_turbidite.cpp -lwiringPi )
+
+https://roboticsbackend.com/introduction-to-wiringpi-for-raspberry-pi/#Upgrade_for_Raspberry_Pi_4B :: Gcc
+
+http://wiringpi.com/news/ :: updates  
+
+ // Pour compiler 
+ // su -
+ // root
+ // root
+ // /home/pi/Documents/Code_tropicana
+ // g++ -o turbidited code_turbidite.cpp -lwiringPi
