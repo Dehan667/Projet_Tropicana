@@ -59,11 +59,16 @@
 #define LED4_CHANNEL 4
 #define LED5_CHANNEL 5
 
+#define POT1_CHANNEL 1   // Canal analogique du potentiomètre 1
+#define POT2_CHANNEL 2   // Canal analogique du potentiomètre 2
+
+
+
 int main(int argc, char *params[]) {
-    int ipid = 0;
+    int ipid = 3;
 
     // Ouvre le dispositif
-    if (OpenDevice(ipid) < 0) {
+    if (OpenDevice(ipid) < 3) {
         printf("Could not open the k8055 (port:%d)\nPlease ensure that the device is correctly connected.\n", ipid);
         return -1;
     }
@@ -73,6 +78,9 @@ int main(int argc, char *params[]) {
     int button3_state = 0;
     int button4_state = 0;
     int button5_state = 0;
+    int stock_value_1 = 300;
+    int stock_value_2 = 300;
+
 
     while (1) {
         // Lit l'état des boutons
@@ -82,63 +90,78 @@ int main(int argc, char *params[]) {
         int button4_read_state = ReadDigitalChannel(BUTTON4_CHANNEL);
         int button5_read_state = ReadDigitalChannel(BUTTON5_CHANNEL);
 
-        // Si le bouton 1 est pressé, allume ou éteint la LED 1
+        // Lit les valeurs des potentiomètres
+        int pot1_value = ReadAnalogChannel(POT1_CHANNEL);
+        int pot2_value = ReadAnalogChannel(POT2_CHANNEL);
+
+        // Si le bouton 1 est pressé, allume ou éteint la LED 1 (vanne de la cuve)
         if (button1_read_state == 1 && button1_state == 0) {
-            printf("Vanne de la cuve, ouverte\n");
+            printf("Vanne de la cuve de produit, fermée\n");
             button1_state = 1;
             SetDigitalChannel(LED1_CHANNEL);
         } else if (button1_read_state == 1 && button1_state == 1) {
-            printf("Vanne de la cuve, fermer\n");
+            printf("Vanne de la cuve de produit,ouvert\n");
             button1_state = 0;
             ClearDigitalChannel(LED1_CHANNEL);
         }
 
-        // Si le bouton 2 est pressé, allume ou éteint la LED 2
+        // Si le bouton 2 est pressé, allume ou éteint la LED 2 (vanne de la cuve de produit)
         if (button2_read_state == 1 && button2_state == 0) {
-            printf("Vanne de la cuve de produit, ouverte\n");
+            printf("Vanne du reseau l'eau, fermée\n");
             button2_state = 1;
             SetDigitalChannel(LED2_CHANNEL);
         } else if (button2_read_state == 1 && button2_state == 1) {
-            printf("Vanne de la cuve de produit, fermer\n");
+            printf("Vanne du reseau l'eau, ourvert\n");
             button2_state = 0;
             ClearDigitalChannel(LED2_CHANNEL);
         }
 
         // Si le bouton 3 est pressé, allume ou éteint la LED 3
         if (button3_read_state == 1 && button3_state == 0) {
-            printf("Vanne de l'eau publique, ouverte\n");
+            printf("Tête de nettoyage TZ-74, arrêtée\n");
             button3_state = 1;
             SetDigitalChannel(LED3_CHANNEL);
         } else if (button3_read_state == 1 && button3_state == 1) {
-            printf("Vanne de l'eau publique, fermer\n");
+            printf("Tête de nettoyage TZ-74, en marche\n");
             button3_state = 0;
             ClearDigitalChannel(LED3_CHANNEL);
         }
 
-
         // Si le bouton 4 est pressé, allume ou éteint la LED 4
         if (button4_read_state == 1 && button4_state == 0) {
-            printf("Tête de nettoyage BladeClean, en marche\n");
+            printf("Tête de nettoyage BladeClean, arrêtée\n");
             button4_state = 1;
             SetDigitalChannel(LED4_CHANNEL);
         } else if (button4_read_state == 1 && button4_state == 1) {
-            printf("Tête de nettoyage BladeClean, arrêter\n");
+            printf("Tête de nettoyage BladeClean, en marche\n");
             button4_state = 0;
             ClearDigitalChannel(LED4_CHANNEL);
         }
 
         // Si le bouton 5 est pressé, allume ou éteint la LED 5
         if (button5_read_state == 1 && button5_state == 0) {
-            printf("Tête de nettoyage TZ-74, en marche\n");
+            printf("Vanne de l'eau publique, fermée\n");
             button5_state = 1;
             SetDigitalChannel(LED5_CHANNEL);
         } else if (button5_read_state == 1 && button5_state == 1) {
-            printf("Tête de nettoyage TZ-74, arrêter\n");
+            printf("Vanne de l'eau publique, ourvert\n");
             button5_state = 0;
             ClearDigitalChannel(LED5_CHANNEL);
         }
+
+        // Affiche les valeurs des potentiomètres
+        if (pot1_value != stock_value_1)
+        {
+            printf("Débitmètre de la cuve de produit: %dL\n", pot1_value/50);
+        }
+        if (pot2_value != stock_value_2)
+        {
+            printf("Débitmètre du reseau d'eau: %dL\n", pot2_value/4);
+        }
+        stock_value_1 = pot1_value;
+        stock_value_2 = pot2_value;
     
-        usleep(150000); // Attends 0.1 seconde avant de lire à nouveau l'état du bouton
+        usleep(150000); // Attends 0.15 seconde avant de lire à nouveau l'état du bouton et les valeurs des potentiomètres
     }
 
     // Ferme le dispositif
@@ -146,3 +169,4 @@ int main(int argc, char *params[]) {
 
     return 0;
 }
+
